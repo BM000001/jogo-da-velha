@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width" />
+    <title>Jogo da Velha</title>
+    <link rel="stylesheet" href="jogo.css">
+
+</head>
+
+<body>
+    <button id="reiniciar">Reiniciar Jogo</button>
+
+    <h1 id="titulo">Player VS Player</h1>
+
+    <div class="container">
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+        <button></button>
+    </div>
+
+    <script>
+        let currentPlayer = 'X'; // Define o primeiro jogador
+        let gameOver = false;
+
+        // Seleciona todos os botões
+        const buttons = document.querySelectorAll('button');
+
+        const winConditions = [
+        [1, 2, 3],
+        [4, 5, 6],
+        [7, 8, 9],
+        [1, 4, 7],
+        [2, 5, 8],
+        [3, 6, 9],
+        [1, 5, 9],
+        [3, 5, 7]
+        ];
+
+        // Adiciona um evento de clique para cada botão
+        buttons.forEach((button, index) => {
+            button.addEventListener('click', function () {
+                if (gameOver) {
+                    return; // Não faz nada se o jogo já acabou
+                }
+                makeMove(index);
+            });
+        });
+
+        function makeMove(index) {
+            let button = buttons[index]; // Seleciona o botão clicado
+
+            // Verifica se o botão já foi preenchido
+            if (button.classList.contains('x') || button.classList.contains('y')) {
+                console.log(`Célula ${index} já preenchida!`);
+                return;
+            }
+
+            // Marca o botão com a classe do jogador atual
+            if (currentPlayer === 'X') {
+                button.classList.add('x');
+            } else {
+                button.classList.add('y');
+            }
+
+            if (checkWin()) {
+                console.log(`Jogador ${currentPlayer} ganhou!`);
+                gameOver = true; // Fim do jogo
+                alert(`Jogador ${currentPlayer} ganhou!`);
+                return;
+            }
+
+            if (checkEmpate()) {
+                console.log("Empate!");
+                gameOver = true; // Fim do jogo
+                alert("Empate!");
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'Y' : 'X';
+        }
+
+        function checkEmpate() {
+            return [...buttons].every(button => button.classList.contains('x') || button.classList.contains('y'));
+        }
+
+        function checkWin() {
+            for (let condition of winConditions) {
+                const [a, b, c] = condition;
+                if (
+                    buttons[a].classList.contains(currentPlayer.toLowerCase()) &&
+                    buttons[b].classList.contains(currentPlayer.toLowerCase()) &&
+                    buttons[c].classList.contains(currentPlayer.toLowerCase())
+                ) {
+                    // Adiciona a classe 'vencedora' nas células vencedoras
+                    buttons[a].classList.add('vencedora');
+                    buttons[b].classList.add('vencedora');
+                    buttons[c].classList.add('vencedora');
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function restartGame() {
+            buttons.forEach(button => {
+                button.classList.remove('x', 'y', 'vencedora'); // Remove as classes 'x', 'y' e 'vencedora'
+            });
+
+            gameOver = false; // Resetando o estado do jogo
+            currentPlayer = 'X'; // Definindo o primeiro jogador novamente
+        }
+
+        document.getElementById('reiniciar').addEventListener('click', restartGame);
+
+    </script>
+</body>
+
+</html>

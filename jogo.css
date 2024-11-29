@@ -1,0 +1,90 @@
+body { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('wallpapersden.com_kame-house-dragon-ball-z_3032x1706.jpg') no-repeat center center fixed;
+    background-size: cover; /* Faz a imagem cobrir toda a tela */
+}
+
+/* Estilo do tabuleiro */
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-gap: 4px;
+}
+
+/* Estilo dos botões */
+.container button {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    background: rgba(0, 0, 0, 0.721); /* Cor de fundo inicial */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: background 0.3s ease-in-out;
+}
+
+.container button.x {
+    background: url('capa\ goku.webp');
+    background-size: cover;
+    background-position: center;
+
+}
+
+.container button.y {
+    background: url('vegeta.jfif');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Estilos extras, não mudam visualmente o jogo, apenas a interação */
+.container button::before {
+    content: '';
+    position: absolute;
+    top: var(--y);
+    left: var(--x);
+    transform: translate(-50%, -50%);
+    background: radial-gradient(var(--clr), transparent, transparent);
+    width: 300px;
+    height: 300px;
+    transition: 0.5s, top 0.1s, left 0.1s;
+}
+
+.container button.vencedora::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(55, 229, 55, 0.319); /* Overlay verde semitransparente */
+    pointer-events: none; /* Impede que o overlay interfira nas interações do botão */
+    transition: background-color 0.3s ease;
+    z-index: 1; /* Garante que o overlay fique acima da imagem */
+}
+
+#reiniciar{
+    position: absolute;
+    right: 5%;
+    top: 3%;
+    padding:2%;
+    border-radius: 150px;
+    background-color: black;
+    color: #3959a6;
+}
+
+#titulo{
+    position: absolute;
+    top: 5%;
+    text-align: center;
+}
+
+#vencedora  button::after{
+    background-color: rgba(10, 43, 10, 0.884);
+}
